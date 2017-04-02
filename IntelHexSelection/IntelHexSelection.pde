@@ -27,7 +27,7 @@ So if one is looking to expand the functionality of the program, Ctrl+F that tag
   Many Waveform Generation options. Modularized to make it easy to add a new one.
   Easily Editable Filename.
 */  
-final String FILENAME = "ProcessingCode.hex"; //To Modify: choose your filename;
+String FILENAME = "ProcessingCode.hex"; //To Modify: choose your filename;
 
 final String logicFileExtension = ".logic";  
   
@@ -93,6 +93,8 @@ PImage M27C512;
 PImage M2732A;
 
 int defaultColor = 0;
+//int defaultColor = 255;
+
 int currentColor = 0;
 float currentIncrement = 1;
 int flashColor = color(0,160,100);
@@ -161,6 +163,20 @@ int col = color(255);
 int prgmState;
 boolean beginSynthesis = false;
 
+
+
+void controlEvent(ControlEvent theEvent) {
+  if(theEvent.isAssignableFrom(Textfield.class)) {
+    logicString = theEvent.getStringValue();
+    println(logicString);
+    //logicFunction.get(Textfield.class,logicPrompt).getText();
+     flashing = true;
+     beginSynthesis = true; //This is to break the synthesis method out from the button return method, b/c the button method has built in error handling that obfuscates problems with Hex Generation.
+     guiGeneratesHex();
+  }
+}
+
+
 void setup() {
   WaveformSelection.addColumn("Memory Bank", Table.STRING);
   WaveformSelection.addColumn("Pin", Table.STRING);
@@ -205,7 +221,7 @@ void setup() {
             ;
             
         int membankXpos = 175;
-        int membankYpos = 350;
+        int membankYpos = 210;
         int membankYspace = 20;
         defaults.addToggle("Membank_0")
           .setPosition(membankXpos, membankYpos + membankYspace*1)
@@ -237,15 +253,15 @@ void setup() {
           ;
         membankSelectText1 = defaults.addTextlabel("membankSelectText1")
           .setText("Select Memory Bank")
-          .setPosition(membankXpos, membankYpos)
+          .setPosition(membankXpos-20, membankYpos)
           ;
         membankSelectText2 = defaults.addTextlabel("membankSelectText2")
           .setText(membankSelection)
           .setPosition(membankXpos+10, membankYpos+membankYspace*5+2)
           ;  
           
-        int outpinXpos = 950-200;
-        int outpinYpos = 400;
+        int outpinXpos = 950-350;
+        int outpinYpos = 100;
         int outpinYspace = 20;
         defaults.addToggle("outpin_0")
           .setPosition(outpinXpos, outpinYpos + outpinYspace*1)
@@ -305,7 +321,7 @@ void setup() {
           ;
         outpinText1 = defaults.addTextlabel("outpinText1")
           .setText("Select Output Pins")
-          .setPosition(outpinXpos-25, outpinYpos)
+          .setPosition(outpinXpos-15, outpinYpos)
           ;
         outpinText2 = defaults.addTextlabel("outpinText2")
           .setText(outpinSelection)
@@ -420,11 +436,11 @@ void Wave_Selection(int n){
 void manageCanvas() {
   if (selectedChip == chip1){
     //EEPROM1.show();
-    image(M27C512,-180,0);
+    image(M27C512,0,0);
   }
   if (selectedChip == chip2){
     //EEPROM2.show();
-    image(M2732A,-180,0);
+    image(M2732A,0,0);
   }
   if (selectedChip != ""){
     defaults.show();
@@ -642,7 +658,7 @@ void BurnIntelHex(Table waveformSelection){
 *Iterates through a table of hex strings and writes it to a file.
 */
 void writeHexTable(Table table){
-  println("Writing to the following hex file: "+ FILENAME+ ": ");
+  
   PrintWriter output;
   output = createWriter("data/" +FILENAME);
   for( TableRow row: table.rows() ){
@@ -651,6 +667,7 @@ void writeHexTable(Table table){
   }
   output.flush();
   output.close();
+  println("Wrote to the following hex file: "+ FILENAME);
 }
 void PrintWaveformSelection(){
   println("  Memory Bank:\t  Pin:\t Logic Function:");
@@ -809,6 +826,7 @@ return truthTable;
 */
 String generateFullLogic(String logicFunction){
    if(logicFunction.indexOf(logicFileExtension) != -1){
+     String default_filename = FILENAME;
      try{
        println("logic file detected...");
        String lines[] = loadStrings(logicFunction);
@@ -822,11 +840,15 @@ String generateFullLogic(String logicFunction){
          }
        }
        
+       FILENAME = logicFunction.split(logicFileExtension)[0];
+       FILENAME = FILENAME + ".hex";
+       
        logicFunction = temp;
        println("File's Function:");
        println(logicFunction);
      }
      catch (Exception e){
+       FILENAME = default_filename; 
       println("Error: Bad Logic file given.");
      }
  }
