@@ -1,0 +1,12 @@
+//test.logic demo file
+//declare logic like so:
+A0 || (A7&&A3)
+
+//They are executed in javascript, so any logic you can do there, you can do here.
+//Single Line comments like this.
+
+ || A3
+
+//Multi-line logic will be concatinated. 
+//The above reads as:  A0 || (A7&&A3) || A3
+
