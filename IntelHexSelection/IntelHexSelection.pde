@@ -119,6 +119,9 @@ ControlP5 defaults;
 ControlP5 openingScreen;
   Textlabel opening1;
   Textlabel opening2;
+  Textlabel opening3;
+  Textlabel opening4;
+  
 ControlP5 EEPROM1;
 ControlP5 EEPROM2;
 //Various booleans modified by the above controllers. Doesn't communicate to the rest of program. 
@@ -212,8 +215,49 @@ void setup() {
     .setText("SELECT CHIP to get started.")
     .setFont(cf1).setPosition(width/2, height/2 + 15);
     ;
+  
+    String str = "ABOUT:\nThe HexProcessing project allows EPROMS to be used as a programmable logic device, \n" +
+    "or a waveform generator. Use the GUI to assign pins, choose between supported chips,  \n" +
+    "and determine logic functions. Aimed at the maker community, this tools allows you to  \n" +
+    "repurpose old UV erasable EPROM technology into interesting and useful gadgets. Of particular  \n" +
+    "focus is the digital multiplication of oscillators to explore the minute differences  \n"  +
+    "of parts-per-million errors present within them.  \n";
+
+
+  opening3 = openingScreen.addTextlabel("opening3")
+    .setText(str)    
+    .setFont(cf1).setPosition(width/2, 15);
+    ;
+    
+    str = "HOW TO USE: \n" +
+          "By default the filename of the output is ProcessingCode.hex (which may be changed on the first \n" +
+          "line of the Processing code). Logic execution from a .logic file allows boolean logic \n" +
+          "of arbitrary complexity. The filename foo.logic will create a hex file of foo.hex for your \n" +
+          "convienience.  \n\n" +
+          
+          "The program uses pins A8 through A11 as memory banks to store multiple functions on a \n" +
+          "single EPROM. Simply drive the pins high or low to access the different memory bank functions. \n" +
+          "All logic must index from the input pins A0 through A7, thus an example logic function might\n" +
+          "look like:\n\n" +
+          
+          "A1 && (A2||A3)^A5 \n\n" +
+          
+          "All logic used is Javascript boolean logic. \n\n" +
+          
+          "The demo file test.logic inside of \\data \nmay be opened with a simple text editor.\n" +
+          "For instructions on how to input\nlogic files, read the instructions found there. \n\n";
+
+  opening4 = openingScreen.addTextlabel("opening4")
+    .setText(str)    
+    .setFont(cf1).setPosition(width/2, 15);
+    ;
+    
+  
   opening1.setPosition(width/2-opening1.getWidth()/2, height/2);
   opening2.setPosition(width/2-opening2.getWidth()/2, height/2+15);
+  opening3.setPosition(width-opening3.getWidth()/2 - 600, height-125);
+  opening4.setPosition(10, 10);
+  
   
   defaults = new ControlP5(this);
   defaults.setVisible(false);

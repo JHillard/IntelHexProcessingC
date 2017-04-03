@@ -10,3 +10,4 @@ A0 || (A7&&A3)
 //Multi-line logic will be concatinated. 
 //The above reads as:  A0 || (A7&&A3) || A3
 
+// /*   */ Multi-line comments are not currently supported. 

@@ -1,0 +1,32 @@
+x Bigger Font
+ Intro Text
+ Logic Text
+
+
+The HexProcessing project allows EPROMS to be used as a programmable logic device,
+or a waveform generator. Use the GUI to assign pins, choose between supported chips, 
+and determine logic functions. Aimed at the maker community, this tools allows you to
+repurpose old UV erasable EPROM technology into interesting and useful gadgets. Of particular
+focus is the digital multiplication of oscillators to explore the minute differences
+of parts-per-million errors present within them.
+
+
+HOW TO USE:
+By default the filename of the output is ProcessingCode.hex (which may be changed on the first
+line of the Processing code). Logic execution from a .logic file allows boolean logic
+of arbitrary complexity. The filename foo.logic will create a hex file of foo.hex for your
+convienience.  
+
+The program uses pins A8 through A11 as memory banks to store multiple functions on a 
+single EPROM. Simply drive the pins high or low to access the different memory bank functions. 
+All logic must index from the input pins A0 through A7, thus an example logic function might
+look like:
+
+A1 && (A2||A3)^A5
+
+All logic used is Javascript boolean logic.
+
+The demo file test.logic may be opened with a simple text editor.
+For instructions on how to input logic files, read the instructions found there. 
+
+  
