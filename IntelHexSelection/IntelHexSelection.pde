@@ -150,7 +150,7 @@ final String sawTag = "Saw Wave";
 String selectedWave = "";
 
 String logicString = "";
-String logicPrompt = "Arbitrary Logic Function        Ex: A0 || ( A7&&A3)";
+String logicPrompt = "Arbitrary Logic Function        Ex: A0 || ( A7&&A3) \nFilenames are entered here.   EX: test.logic";
 
 String membankSelection = "";
 String outpinSelection = "";
@@ -178,6 +178,11 @@ void controlEvent(ControlEvent theEvent) {
 
 
 void setup() {
+  
+  textSize(16);
+  ControlFont cf1 = new ControlFont(createFont("Consolas",13));
+  
+  
   WaveformSelection.addColumn("Memory Bank", Table.STRING);
   WaveformSelection.addColumn("Pin", Table.STRING);
   WaveformSelection.addColumn("Logic", Table.STRING);
@@ -192,7 +197,7 @@ void setup() {
 
   EEPROM1 = new ControlP5(this);
   EEPROM1.addToggle(chip1 + "_chosen")
-    .setPosition(40, 100)
+    .setFont(cf1).setPosition(40, 100)
     .setSize(50, 20)
     .setValue(true)
     .setMode(ControlP5.SWITCH)
@@ -201,11 +206,11 @@ void setup() {
   openingScreen = new ControlP5(this);
   opening1 = openingScreen.addTextlabel("opening1")
     .setText("Welcome")
-    .setPosition(width/2, height/2);
+    .setFont(cf1).setPosition(width/2, height/2);
     ;
   opening2 = openingScreen.addTextlabel("opening2")
     .setText("SELECT CHIP to get started.")
-    .setPosition(width/2, height/2 + 15);
+    .setFont(cf1).setPosition(width/2, height/2 + 15);
     ;
   opening1.setPosition(width/2-opening1.getWidth()/2, height/2);
   opening2.setPosition(width/2-opening2.getWidth()/2, height/2+15);
@@ -216,7 +221,7 @@ void setup() {
         int synthButtonYpos = 600;
         defaults.addButton("SYNTHESIZE_HEX")
             .setValue(0)
-            .setPosition(synthButtonXpos,synthButtonYpos)
+            .setFont(cf1).setPosition(synthButtonXpos,synthButtonYpos)
             .setSize(200,40)
             ;
             
@@ -253,11 +258,11 @@ void setup() {
           ;
         membankSelectText1 = defaults.addTextlabel("membankSelectText1")
           .setText("Select Memory Bank")
-          .setPosition(membankXpos-20, membankYpos)
+          .setFont(cf1).setPosition(membankXpos-40, membankYpos)
           ;
         membankSelectText2 = defaults.addTextlabel("membankSelectText2")
           .setText(membankSelection)
-          .setPosition(membankXpos+10, membankYpos+membankYspace*5+2)
+          .setFont(cf1).setPosition(membankXpos+10, membankYpos+membankYspace*5+2)
           ;  
           
         int outpinXpos = 950-350;
@@ -321,18 +326,18 @@ void setup() {
           ;
         outpinText1 = defaults.addTextlabel("outpinText1")
           .setText("Select Output Pins")
-          .setPosition(outpinXpos-15, outpinYpos)
+          .setFont(cf1).setPosition(outpinXpos-15, outpinYpos)
           ;
         outpinText2 = defaults.addTextlabel("outpinText2")
           .setText(outpinSelection)
-          .setPosition(outpinXpos, outpinYpos+outpinYspace*9+2)
+          .setFont(cf1).setPosition(outpinXpos-7, outpinYpos+outpinYspace*9+2)
           ;                                    
 
           List l2 = Arrays.asList(logicFunctionTag, waveGenTag);
           /* add a ScrollableList, by default it behaves like a DropdownList */
           programSelection = new ControlP5(this);
           programSelection.addScrollableList("Program_Selection")
-            .setPosition(200, 100)
+            .setFont(cf1).setPosition(200, 100)
             .setSize(200, 100)
             .setBarHeight(20)
             .setItemHeight(20)
@@ -353,11 +358,12 @@ void setup() {
   /* add a ScrollableList, by default it behaves like a DropdownList */
   ChipSelect = new ControlP5(this);
   ChipSelect.addScrollableList("Chip_Select")
-    .setPosition(200, 100)
+    .setFont(cf1).setPosition(200, 100)
     .setSize(200, 100)
     .setBarHeight(20)
     .setItemHeight(20)
     .addItems(l)
+    .setFont(cf1); //TODO font
     // .setType(ScrollableList.LIST) // currently supported DROPDOWN and LIST
     ;
    
@@ -365,7 +371,7 @@ void setup() {
   /* add a ScrollableList, by default it behaves like a DropdownList */
   waveGen = new ControlP5(this);
   waveGen.addScrollableList("Wave_Selection")
-    .setPosition(200, 100)
+    .setFont(cf1).setPosition(200, 100)
     .setSize(200, 75)
     .setBarHeight(20)
     .setItemHeight(20)
@@ -376,7 +382,7 @@ void setup() {
    
    logicFunction = new ControlP5(this);
    logicFunction.addTextfield(logicPrompt)
-     .setPosition(200, 100)
+     .setFont(cf1).setPosition(200, 100)
      .setSize(200,20)
      .setFocus(true)
      ;  
